@@ -11,6 +11,8 @@ pub(crate) enum Opt {
     Fetch {
         #[structopt(short)]
         name: String,
+        #[structopt(short)]
+        clipboard: bool
     },
     #[structopt(about = "remove the password")]
     Remove {

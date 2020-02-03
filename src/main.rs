@@ -7,6 +7,8 @@ use cli::Opt::*;
 use std::fmt::Debug;
 use std::io::Write;
 use mimalloc::MiMalloc;
+use clipboard::{ClipboardContext, ClipboardProvider};
+
 #[global_allocator]
 static ALLOC: MiMalloc = MiMalloc;
 #[inline(always)]
@@ -101,7 +103,7 @@ fn main() {
                     }
                 }
             },
-            Fetch {name} => {
+            Fetch {name, clipboard: clip} => {
                 match db.get(&name) {
                     Err(_) | Ok(None) => failed_with::<(), ()>("name does not exist")(()),
                     Ok(Some(content)) => {
@@ -117,7 +119,16 @@ fn main() {
                             .unwrap_or_else(failed_with("unable to initalize decrypter"));
                         let password = decrypter.decrypt(content.as_slice())
                             .unwrap_or_else(failed_with("unable to decrypt the password"));
-                        println!("{}", String::from_utf8_lossy(password.as_slice()));
+                        if clip {
+                            let mut cb: ClipboardContext = ClipboardProvider::new()
+                                .unwrap_or_else(failed_with("unable to initalize clipboard"));
+                            unsafe {
+                                cb.set_contents(String::from_utf8_unchecked(password))
+                                    .unwrap_or_else(failed_with("unable to set clipboard"));
+                            }
+                        } else {
+                            println!("{}", String::from_utf8_lossy(password.as_slice()));
+                        }
                     }
                 }
             }

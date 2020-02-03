@@ -9,6 +9,7 @@ edition = "2018"
 [dependencies]
 rocksdb = "0.13"
 structopt = "0.3"
-rpassword = "4.0.5"
+rpassword = "4"
 mimalloc = { version = "*", features = ["secure-full"] }
-botan = "0.6.0"
+clipboard = "0.5"
+botan = "0.6"
