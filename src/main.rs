@@ -50,7 +50,13 @@ fn main() {
             println!("password: {}", pass);
             opt = Add { name };
             Some(pass)
-        } else { None };
+        } else if let AddFile {name, path} = opt {
+            let file = std::fs::read_to_string(path)
+                .unwrap_or_else(failed_with("unable to read file"));
+            opt = Add { name };
+            Some(file)
+        }
+        else { None };
         match opt {
             List => {
                 let iter = db.iterator(IteratorMode::Start);

@@ -10,5 +10,5 @@ edition = "2018"
 rocksdb = "0.13"
 structopt = "0.3"
 rpassword = "4.0.5"
-mimalloc = "*"
+mimalloc = { version = "*", features = ["secure-full"] }
 botan = "0.6.0"

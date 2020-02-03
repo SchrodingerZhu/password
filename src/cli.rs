@@ -30,5 +30,13 @@ pub(crate) enum Opt {
     GenPassword {
         #[structopt(short)]
         name: String
-    }
+    },
+
+    #[structopt(about = "add secure file")]
+    AddFile {
+        #[structopt(short)]
+        name: String,
+        #[structopt(short)]
+        path: String
+    },
 }
