@@ -47,7 +47,7 @@ fn main() {
             let mut k : [u8; 16] = [0; 16];
             gen.fill(&mut k).unwrap_or_else(failed_with("unable to generate random bits"));
             let pass = botan::base64_encode(&k).unwrap();
-            println!("password: {}", pass);
+            println!("{}", pass);
             opt = Add { name };
             Some(pass)
         } else if let AddFile {name, path} = opt {
@@ -117,7 +117,7 @@ fn main() {
                             .unwrap_or_else(failed_with("unable to initalize decrypter"));
                         let password = decrypter.decrypt(content.as_slice())
                             .unwrap_or_else(failed_with("unable to decrypt the password"));
-                        println!("password: {}", String::from_utf8_lossy(password.as_slice()));
+                        println!("{}", String::from_utf8_lossy(password.as_slice()));
                     }
                 }
             }
