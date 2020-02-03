@@ -33,7 +33,7 @@ fn main() {
     if let GenKey {path}  = opt {
         let password = rpassword::read_password_from_tty(Some("password for the private key: "))
             .unwrap_or_else(failed_with("unable to read the password"));
-        let prikey = botan::Privkey::create("RSA", "4096", &gen)
+        let prikey = botan::Privkey::create("RSA", "16384", &gen)
             .unwrap_or_else(failed_with("unable to create private key"));
         let pubkey = prikey.pubkey()
             .unwrap_or_else(failed_with("unable to create public key"));
